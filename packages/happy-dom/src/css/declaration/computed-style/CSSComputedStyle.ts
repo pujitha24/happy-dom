@@ -34,6 +34,14 @@ type IStyleAndElement = {
 };
 
 /**
+ * Keywords that compute to a numeric value. "bolder" and "lighter" are relative to the parent and are left as is.
+ */
+const FONT_WEIGHT_NUMERIC_VALUES: { [key: string]: string } = {
+	normal: '400',
+	bold: '700'
+};
+
+/**
  * CSS Style Declaration utility
  */
 export default class CSSComputedStyle {
@@ -242,6 +250,14 @@ export default class CSSComputedStyle {
 						}
 
 						if (!settings?.disableComputedStyleRendering) {
+							if (affectedKeys.includes('font-weight')) {
+								for (const manager of [propertyManager, inheritedPropertyManager]) {
+									const fontWeight = manager.properties['font-weight'];
+									if (fontWeight && FONT_WEIGHT_NUMERIC_VALUES[fontWeight.value]) {
+										fontWeight.value = FONT_WEIGHT_NUMERIC_VALUES[fontWeight.value];
+									}
+								}
+							}
 							if (affectedKeys.includes('font-size')) {
 								const fontSize = propertyManager.properties['font-size'];
 								const parsedValue = this.parseMeasurementsInValue({

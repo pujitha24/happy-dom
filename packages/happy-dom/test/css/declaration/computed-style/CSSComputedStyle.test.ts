@@ -29,6 +29,26 @@ describe('CSSComputedStyle', () => {
 			expect(computedStyle.getComputedStyle()).not.toBe(propertyManager);
 		});
 
+		it('Normalizes "font-weight" keywords to numeric values.', () => {
+			const child = document.createElement('span');
+			element.appendChild(child);
+			document.body.appendChild(element);
+
+			element.style.fontWeight = 'bold';
+			expect(window.getComputedStyle(element).fontWeight).toBe('700');
+			expect(window.getComputedStyle(child).fontWeight).toBe('700');
+			expect(element.style.fontWeight).toBe('bold');
+
+			element.style.fontWeight = 'normal';
+			expect(window.getComputedStyle(element).fontWeight).toBe('400');
+
+			element.style.fontWeight = '600';
+			expect(window.getComputedStyle(element).fontWeight).toBe('600');
+
+			element.setAttribute('style', 'font: bold 12px Arial');
+			expect(window.getComputedStyle(element).fontWeight).toBe('700');
+		});
+
 		it('Parses variables correctly.', () => {
 			document.body.appendChild(element);
 			element.setAttribute(

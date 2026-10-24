@@ -587,7 +587,7 @@ export default class CSSPropertyGetParser {
 		if (properties['font-variant'].value !== 'normal') {
 			values.push(properties['font-variant'].value);
 		}
-		if (properties['font-weight'].value !== 'normal') {
+		if (properties['font-weight'].value !== 'normal' && properties['font-weight'].value !== '400') {
 			values.push(properties['font-weight'].value);
 		}
 		if (properties['font-stretch'].value !== 'normal') {
